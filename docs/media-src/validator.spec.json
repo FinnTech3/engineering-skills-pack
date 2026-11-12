@@ -1,0 +1,62 @@
+{
+  "title": "skillcheck",
+  "setup": [
+    "cp -r \"$REPO_ROOT/skills\" skills"
+  ],
+  "width": 1060,
+  "rows": 20,
+  "wrap": 120,
+  "highlight": [
+    {
+      "re": "^t/.*: [a-z-]+: ",
+      "cls": "red"
+    },
+    {
+      "re": "^OK: ",
+      "cls": "green"
+    }
+  ],
+  "steps": [
+    {
+      "note": "# do the 14 skills pass their own checks?"
+    },
+    {
+      "cmd": "skillcheck validate skills",
+      "hold": 0.9
+    },
+    {
+      "note": "# break a copy of one skill, the way a tired person edits it"
+    },
+    {
+      "cmd": "mkdir t && cp -r skills/test-first-change t/",
+      "hold": 0.1
+    },
+    {
+      "cmd": "sed -i 's/^name: .*/name: test_first_change/' t/test-first-change/SKILL.md"
+    },
+    {
+      "cmd": "sed -i 's/^6\\. Write/6. Simply write/' t/test-first-change/SKILL.md"
+    },
+    {
+      "cmd": "echo 'See [the notes](references/notes.md).' >> t/test-first-change/SKILL.md"
+    },
+    {
+      "cmd": "skillcheck validate t",
+      "expectExit": [
+        1
+      ],
+      "hold": 2.2
+    },
+    {
+      "note": "# put the original back, run it again"
+    },
+    {
+      "cmd": "cp skills/test-first-change/SKILL.md t/test-first-change/ && skillcheck validate t",
+      "hold": 1.2
+    }
+  ],
+  "typingSeconds": 1.2,
+  "endHoldSeconds": 2.5,
+  "fontSize": 14,
+  "poster": true
+}

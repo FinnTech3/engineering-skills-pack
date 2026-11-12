@@ -1,0 +1,58 @@
+[build-system]
+requires = ["setuptools>=77"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "skillcheck"
+version = "0.1.0"
+description = "Validate, list, index and scaffold Agent Skills folders (SKILL.md files)."
+readme = "README.md"
+requires-python = ">=3.10"
+license = "MIT"
+license-files = ["LICENSE"]
+authors = [{ name = "FinnTech3" }]
+keywords = ["ai-agent-skills", "skills", "linter", "validator", "ai-coding-agents"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Environment :: Console",
+    "Intended Audience :: Developers",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Topic :: Software Development :: Quality Assurance",
+]
+dependencies = []
+
+[project.optional-dependencies]
+dev = ["pytest>=7", "ruff>=0.5"]
+
+[project.scripts]
+skillcheck = "skillcheck.cli:main"
+
+[project.urls]
+Homepage = "https://github.com/FinnTech3/engineering-skills-pack"
+Issues = "https://github.com/FinnTech3/engineering-skills-pack/issues"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-data]
+skillcheck = ["py.typed"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["src"]
+addopts = "-ra"
+
+[tool.ruff]
+line-length = 100
+target-version = "py310"
+extend-exclude = [".venv", "tools"]  # tools/ is shared across repos and linted in its own
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "B", "UP", "SIM", "C4", "RUF", "PT", "N"]
+
+[tool.ruff.lint.per-file-ignores]
+"tests/**" = ["B018"]
